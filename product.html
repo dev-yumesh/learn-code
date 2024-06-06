@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Products</title>
+    <style>
+      .product_img {
+        height: 160px;
+      }
+      .container {
+        height: 300px;
+        background-color: #f8f7f8;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 1px 2px rgb(190, 173, 173);
+      }
+      .img_container {
+        display: flex;
+        justify-content: center;
+      }
+      .cart_btn {
+        width: 100%;
+        height: 40px;
+        border-radius: 20px;
+        border-color: yellow;
+        background-color: yellow;
+      }
+      #product_list {
+        display: grid;
+        grid-template-columns: auto auto  auto;
+        grid-template-rows: auto ;
+        gap:10px
+      }
+    </style>
+  </head>
+  <body>
+  
+    <div id="product_list"></div>
+    <button id="data_loader">Load Data</button>
+    <script>
+      document
+        .getElementById("data_loader")
+        .addEventListener("click", function (e) {
+          let prl = document.getElementById("product_list");
+          fetch("https://fakestoreapi.com/products")
+          .then((res) => res.json())
+          .then((result) => {
+              console.log("product list----->", result);
+              result.forEach((element) => {
+                  let container = document.createElement("div");
+                  container.setAttribute("class", "container");
+                //   -------------------------
+                  let imgcon = document.createElement('div')
+                  imgcon.setAttribute('class', 'img_container')
+                  let product_img = document.createElement('img')
+                  product_img.setAttribute('class',"product_img" )
+                  product_img.setAttribute('src', element.image )
+                  imgcon.appendChild(product_img)
+                  container.appendChild(imgcon)
+                //   ------------------------
+                   let detail_div = document.createElement('div')
+                   let title = document.createElement('p')
+                   let price = document.createElement('h3')
+                   let cart_btn = document.createElement('button')
+
+                   title.innerHTML = element.title
+                   price.innerHTML = element.price
+                   cart_btn.innerHTML = 'Add To Cart'
+                   cart_btn.setAttribute('class',"cart_btn")
+                   detail_div.appendChild(title)
+                   detail_div.appendChild(price)
+                   detail_div.appendChild(cart_btn)
+                   container.appendChild(detail_div)
+                //    -----------------------
+                
+                prl.appendChild(container);
+              });
+            });
+        });
+    </script>
+  </body>
+</html>
